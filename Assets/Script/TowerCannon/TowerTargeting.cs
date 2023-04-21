@@ -57,11 +57,13 @@ public class TowerTargeting : MonoBehaviour
                 return;
 
             Vector3 direction = target.position - transform.position;
+            float LookDirection = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             Quaternion LookRotation = Quaternion.LookRotation(direction);
             Vector3 rotation = Quaternion.Lerp(Cannon.rotation, LookRotation, Time.deltaTime * TurnSpeed).eulerAngles;
             Cannon.rotation = Quaternion.Lerp(Cannon.rotation, LookRotation, Time.deltaTime * TurnSpeed);
-            Base.rotation = Quaternion.Euler(0f, rotation.y, 0f);
 
+            float moveRotation = Mathf.Lerp(transform.eulerAngles.y, LookDirection, Time.deltaTime * TurnSpeed);
+            Base.transform.eulerAngles = new Vector3(0f, LookDirection, 0f);
 
             if (fireTime <= 0f)
             {

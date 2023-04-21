@@ -4,11 +4,20 @@ public class BulletBehaviour : MonoBehaviour
 {
     private Transform target;
 
+    public float despawnTime = 3;
     public float speed = 70f;
+
+    public void Start()
+    {
+
+    }
     public void chase(Transform _target)
     {
         target = _target;
     }
+
+    
+
     void Update()
     {
         if (target == null)
