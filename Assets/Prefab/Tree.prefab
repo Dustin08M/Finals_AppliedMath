@@ -145,7 +145,7 @@ MonoBehaviour:
   Player: {fileID: 9208234055021413563, guid: c180633a8e9b509459de255fa85a8c06, type: 3}
   PlayerNearColor: {r: 1, g: 0.028783672, b: 0, a: 1}
   NeutralColor: {r: 0.41176474, g: 0.28235295, b: 0.16862746, a: 1}
-  TowerRangeToPlayer: 4
+  TowerRangeToPlayer: 2
   towerPrefab: {fileID: 4827270997792580572, guid: c3f62a5861c89d346bfe5ed110499f17, type: 3}
 --- !u!1 &4612981099317008413
 GameObject:
