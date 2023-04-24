@@ -14,29 +14,33 @@ public class ConvertToTower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        renderer = GetComponent<Renderer>();
+        renderer = GetComponentInChildren<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 distance = Player.position - transform.position;
-        float direction = distance.magnitude;
-
-
-        if (direction <= TowerRangeToPlayer)
+        
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
         {
-            renderer.material.color = PlayerNearColor;
-            if (Input.GetKey(KeyCode.Space))
+            Vector3 distance = player.transform.position - transform.position;
+            float direction = distance.magnitude;
+            if (direction < TowerRangeToPlayer)
             {
-                Instantiate(towerPrefab, transform.position, Quaternion.identity);
-                Destroy(gameObject);
-                Debug.Log("Tower Ready");
+
+                renderer.material.color = PlayerNearColor;
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    Instantiate(towerPrefab, transform.position, Quaternion.identity);
+                    Destroy(gameObject);
+                    Debug.Log("Tower Ready");
+                }
             }
-        }
-        else
-        {
-            renderer.material.color = NeutralColor;
+            else
+            {
+                renderer.material.color = NeutralColor;
+            }
         }
     }
 }

@@ -2,40 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class PlayerMove : MonoBehaviour
+
+public class PlayerController : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
-    [SerializeField] int _playerSpeed;
-    float GetHor;
-    float GetFor;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     void Awake()
-    {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+    { 
+        navMeshAgent = GetComponent<NavMeshAgent>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //GetHor = Input.GetAxis("Horizontal");
-        //GetFor = Input.GetAxis("Vertical");
-        //Vector3 Direction = new Vector3(GetHor, 0, GetFor);
-        //transform.Translate(Direction * _playerSpeed * Time.deltaTime);
+        Vector2 input = new Vector2 (Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-
-        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-        if (input.magnitude <= 0)
+        if(input.magnitude <= 0)
         {
             return;
         }
 
-        if (Mathf.Abs(input.y) > 0.01f)
+        if(Mathf.Abs(input.y) > 0.01f)
         {
             Move(input);
         }
@@ -43,8 +30,9 @@ public class PlayerMove : MonoBehaviour
         {
             Rotate(input);
         }
-    }
 
+
+    }
     private void Rotate(Vector2 input)
     {
         navMeshAgent.destination = transform.position;
@@ -56,4 +44,3 @@ public class PlayerMove : MonoBehaviour
         navMeshAgent.destination = destination;
     }
 }
- 
