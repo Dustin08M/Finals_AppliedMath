@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class BaseHealth : MonoBehaviour
 {
-    [SerializeField] private int health = 100;
-    [SerializeField] private int baseHp;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int currentHealth;
 
-    private void Start()
+    [SerializeField] private HealthBar healthBar;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        baseHp = health;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
             TakeDamage();
-            Debug.Log($"Health Remaining:{baseHp}");
+            Debug.Log($"Health Remaining:{currentHealth}");
             Destroy(other.gameObject);
         }
-;
     }
     private void TakeDamage()
     {
-        int damage = 1;
-        health -= damage;
-        baseHp = health;
+        int damage = 20;
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 }
