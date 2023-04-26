@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SpawnEnemyPool : MonoBehaviour
 {
     [SerializeField] private GameObject[] SpawnSpots;
     [SerializeField] private GameObject Enemyprefab;
+    [SerializeField] private GameObject Portal;
     private float SpawnTime = 1.3f;
-    private Queue<GameObject> enemyPool = new Queue<GameObject>();
+    private Queue<GameObject> enemyPool;
+
+    int RandomIndex;
+    int Poolsize = 15;
+    private void Awake()
+    {
+        enemyPool = new Queue<GameObject>();
+    }
 
     void Start()
     {
@@ -18,7 +27,7 @@ public class SpawnEnemyPool : MonoBehaviour
 
     void InitializeEnemyPool()
     {
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < Poolsize; i++)
         {
             GameObject enemy = Instantiate(Enemyprefab);
             enemy.SetActive(false);
@@ -30,26 +39,29 @@ public class SpawnEnemyPool : MonoBehaviour
     {
         while (true)
         {
-            int RandomIndex = Random.Range(0, SpawnSpots.Length);
+            RandomIndex = Random.Range(0, SpawnSpots.Length - 1);
             Vector3 SpawnPos = SpawnSpots[RandomIndex].transform.position;
             SpawnEnemyMark(SpawnPos);
             yield return new WaitForSeconds(SpawnTime);
         }
     }
 
-    void SpawnEnemyMark(Vector3 enemy)
+    void SpawnEnemyMark(Vector3 spawnPoint)
     {
-        if (enemyPool.Count > 0)
+        GameObject enemyObject = null;
+        if (enemyPool.Count < Poolsize)
         {
-            GameObject enemyObject = enemyPool.Dequeue();
-            enemyObject.transform.position = enemy;
-            enemyObject.SetActive(true);
+            enemyObject = Instantiate(Enemyprefab, spawnPoint, Quaternion.identity);
         }
         else
         {
-            GameObject enemyObject = Instantiate(Enemyprefab);
-            enemyObject.transform.position = enemy;
-            enemyPool.Enqueue(enemyObject);
+            enemyObject = enemyPool.Dequeue();
+            enemyObject.transform.position = spawnPoint;
+            enemyObject.SetActive(true);
+            enemyObject.GetComponent<NavMeshAgent>().SetDestination(Portal.transform.position);
         }
+    
+        
+        enemyPool.Enqueue(enemyObject);
     }
 }
