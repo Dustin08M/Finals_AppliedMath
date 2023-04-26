@@ -8,11 +8,11 @@ public class SpawnEnemyPool : MonoBehaviour
     [SerializeField] private GameObject[] SpawnSpots;
     [SerializeField] private GameObject Enemyprefab;
     [SerializeField] private GameObject Portal;
-    private float SpawnTime = 1.3f;
+    public float SpawnTime = 1.3f;
     private Queue<GameObject> enemyPool;
 
     int RandomIndex;
-    int Poolsize = 15;
+    public int Poolsize = 15;
     private void Awake()
     {
         enemyPool = new Queue<GameObject>();
@@ -56,8 +56,10 @@ public class SpawnEnemyPool : MonoBehaviour
         else
         {
             enemyObject = enemyPool.Dequeue();
+            enemyObject.SetActive(false);
             enemyObject.transform.position = spawnPoint;
             enemyObject.SetActive(true);
+            enemyObject.GetComponent<NavMeshAgent>().ResetPath();
             enemyObject.GetComponent<NavMeshAgent>().SetDestination(Portal.transform.position);
         }
     
