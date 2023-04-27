@@ -10,7 +10,7 @@ public class BaseHealth : MonoBehaviour
     [SerializeField] private string EnemyTag = "Enemy";
     [SerializeField] private float EnemyDistance = 1;
     [SerializeField] private HealthBar healthBar;
-
+    public int damage = 20;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,10 +54,14 @@ public class BaseHealth : MonoBehaviour
     }*/
     private void TakeDamage()
     {
-        int damage = 20;
+        
         if (currentHealth > 0)
         {
             currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                EndScreen.SetActive(true);
+            }
             healthBar.SetHealth(currentHealth);
         }
         else if (currentHealth <= 0)
