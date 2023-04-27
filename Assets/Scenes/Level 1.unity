@@ -10372,7 +10372,7 @@ MonoBehaviour:
   Enemyprefab: {fileID: 7710999344815836047, guid: 19792ca18c09ecc42878f3c064a6e65d, type: 3}
   Portal: {fileID: 284317027}
   SpawnTime: 1.3
-  Poolsize: 15
+  Poolsize: 100
 --- !u!4 &573552225
 Transform:
   m_ObjectHideFlags: 0
@@ -31143,6 +31143,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7437086106120418279, guid: e19058de824bbb4498272075a30bebf9, type: 3}
   m_PrefabInstance: {fileID: 146856592}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1724161217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284317027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558c0bed3c4ef7a40998b8c5304dfd95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 0}
 --- !u!1 &1734282414
 GameObject:
   m_ObjectHideFlags: 0

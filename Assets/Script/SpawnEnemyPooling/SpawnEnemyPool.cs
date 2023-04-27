@@ -8,7 +8,11 @@ public class SpawnEnemyPool : MonoBehaviour
     [SerializeField] private GameObject[] SpawnSpots;
     [SerializeField] private GameObject Enemyprefab;
     [SerializeField] private GameObject Portal;
-    public float SpawnTime = 1.3f;
+
+    [SerializeField] private float SpawnTimer = 3;
+    [SerializeField] public float SpawnDelay = 3;
+    public float SpawnTime = 0;
+
     private Queue<GameObject> enemyPool;
 
     int RandomIndex;
@@ -22,7 +26,7 @@ public class SpawnEnemyPool : MonoBehaviour
     {
         SpawnSpots = GameObject.FindGameObjectsWithTag("SpawnSpot");
         InitializeEnemyPool();
-        StartCoroutine(SpawnEnemies());
+        StartCoroutine(EnemySpawn(SpawnDelay));
     }
 
     void InitializeEnemyPool()
@@ -35,16 +39,10 @@ public class SpawnEnemyPool : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnEnemies()
-    {
-        while (true)
-        {
-            RandomIndex = Random.Range(0, SpawnSpots.Length - 1);
-            Vector3 SpawnPos = SpawnSpots[RandomIndex].transform.position;
-            SpawnEnemyMark(SpawnPos);
-            yield return new WaitForSeconds(SpawnTime);
-        }
-    }
+    /*IEnumerator SpawnEnemies()
+    { 
+            
+    }*/
 
     void SpawnEnemyMark(Vector3 spawnPoint)
     {
@@ -65,5 +63,35 @@ public class SpawnEnemyPool : MonoBehaviour
     
         
         enemyPool.Enqueue(enemyObject);
+    }
+
+    IEnumerator EnemySpawn(float FirstDelay)
+    {
+
+        float spawnCountdown = FirstDelay;
+        float spawnRateCountdown = SpawnTimer;
+        while (true)
+        {
+            yield return null;
+            spawnCountdown -= Time.deltaTime;
+            spawnRateCountdown -= Time.deltaTime;
+
+
+            if (spawnRateCountdown < 0 && SpawnDelay > 0.1)
+            {
+                spawnRateCountdown += SpawnTimer;
+                SpawnDelay -= 0.05f;
+            }
+
+            if (spawnCountdown < 0)
+            {
+
+                RandomIndex = Random.Range(0, SpawnSpots.Length - 1);
+                Vector3 SpawnPos = SpawnSpots[RandomIndex].transform.position;
+                SpawnEnemyMark(SpawnPos);
+                spawnCountdown += SpawnDelay;
+            }
+        }
+
     }
 }
