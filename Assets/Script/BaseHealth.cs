@@ -21,7 +21,7 @@ public class BaseHealth : MonoBehaviour
         {
             TakeDamage();
             Debug.Log($"Health Remaining:{currentHealth}");
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
     private void TakeDamage()
